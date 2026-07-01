@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/streamlit-component-lib@2.0.0/dist/index.js"></script>
+</head>
+
+<body>
+    <h2>Barcode Component Loaded</h2>
+
+    <button id="test-button">
+        Send Test ISBN
+    </button>
+
+    <p id="result">No ISBN sent yet.</p>
+
+    <script>
+        function sendValue(value) {
+            Streamlit.setComponentValue(value);
+        }
+
+        function onRender(event) {
+            Streamlit.setFrameHeight(200);
+        }
+
+        Streamlit.events.addEventListener(
+            Streamlit.RENDER_EVENT,
+            onRender
+        );
+
+        Streamlit.setComponentReady();
+        Streamlit.setFrameHeight(200);
+
+        document.getElementById("test-button").addEventListener("click", function () {
+            const isbn = "9780547928227";
+            document.getElementById("result").innerText = "Sent ISBN: " + isbn;
+            sendValue(isbn);
+        });
+    </script>
+</body>
+</html>

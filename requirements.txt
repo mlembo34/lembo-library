@@ -1,0 +1,7 @@
+streamlit
+watchdog
+gspread
+google-auth
+requests
+pandas
+streamlit-qrcode-scanner
