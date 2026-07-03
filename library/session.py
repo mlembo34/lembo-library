@@ -1,14 +1,17 @@
 import streamlit as st
 
 from library.manager import LibraryManager
+from library.supabase_manager import SupabaseLibraryManager
+
 
 def get_library():
-  """
-  Returns the LibraryManager stored in the current Streamlit session.
-  Creates it the first time it is requested.
-  """
+    if "library" not in st.session_state:
 
-  if "library" not in st.session_state:
-    st.session_state.library = LibraryManager()
+        use_supabase = st.secrets.get("USE_SUPABASE", False)
 
-  return st.session_state.library
+        if use_supabase:
+            st.session_state.library = SupabaseLibraryManager()
+        else:
+            st.session_state.library = LibraryManager()
+
+    return st.session_state.library
