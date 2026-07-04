@@ -46,13 +46,16 @@ else:
         books = books.copy()
         books["Author Sort"] = books["Author"].apply(author_sort_key)
 
+        sort_columns = [
+            col for col in ["Room", "Genre", "Author Sort", "Title"]
+            if col in books.columns
+        ]
+
         books = books.sort_values(
-            by=["Room", "Genre", "Author Sort", "Title"],
-            na_position="last" 
+            by=sort_columns,
+            na_position="last"
         )
             
-        
-
         for _, book in books.iterrows():
 
             with st.container():

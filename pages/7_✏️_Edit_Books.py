@@ -61,7 +61,7 @@ else:
         cover_url=selected.get("Cover URL", ""),
         source=selected.get("Source", ""),
         rating=selected.get("Rating", None),
-        room=selected.get("Room", ""),
+        room=selected.get("Room", "Unknown"),
         reading_status=selected.get("Reading Status", "")
     )
 
