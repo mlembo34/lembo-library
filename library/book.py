@@ -13,5 +13,5 @@ class Book:
     cover_url: str = ""
     source: str = ""
     rating: int | None = None
-    room: str = "Unknown"
+    room: str = "Office"
     reading_status: str = ""

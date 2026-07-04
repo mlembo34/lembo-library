@@ -28,10 +28,10 @@ def book_editor(book=None, form_key="book_editor"):
             publisher = st.text_input("Publisher", value=book.publisher)
             published_date = st.text_input("Published Date", value=book.published_date)
             room_options = [
-                "Unknown",
                 "Office",
                 "Bedroom",
-                "Classroom"
+                "Classroom",
+                "Unknown"
             ]
 
             current_room = book.room or "Unknown"
