@@ -1,6 +1,7 @@
 import streamlit as st
 
 from library.page import setup_page
+from library.utils import author_sort_key
 
 
 library = setup_page(
@@ -42,6 +43,16 @@ else:
         st.warning("No matching books found.")
 
     else:
+        books = books.copy()
+        books["Author Sort"] = books["Author"].apply(author_sort_key)
+
+        books = books.sort_values(
+            by=["Room", "Genre", "Author Sort", "Title"],
+            na_position="last" 
+        )
+            
+        
+
         for _, book in books.iterrows():
 
             with st.container():
@@ -61,7 +72,7 @@ else:
                     st.write(f"**Author:** {book.get('Author', '')}")
 
                     genre = book.get("Genre", "")
-                    shelf = book.get("Shelf", "")
+                    room = book.get("Room", "")
                     status = book.get("Reading Status", "")
                     rating = book.get("Rating", "")
 
@@ -70,8 +81,8 @@ else:
                     if genre and str(genre).lower() != "nan":
                         st.write(f"**Genre:** {genre}")
 
-                    if shelf and str(shelf).lower() != "nan":
-                        st.write(f"**Shelf:** {shelf}")
+                    if room and str(room).lower() != "nan":
+                        st.write(f"**Room:** {room}")
 
                     if status and str(status).lower() != "nan":
                         st.write(f"**Status:** {status}")

@@ -43,6 +43,7 @@ class SupabaseLibraryManager:
             "source": "Source",
             "rating": "Rating",
             "shelf": "Shelf",
+            "room": "Room",
             "reading_status": "Reading Status",
             "date_added": "Date Added"
         })
@@ -99,7 +100,7 @@ class SupabaseLibraryManager:
             "cover_url": book.cover_url,
             "source": book.source,
             "rating": book.rating,
-            "shelf": book.shelf,
+            "room": book.room,
             "reading_status": book.reading_status,
             "date_added": datetime.now().strftime("%Y-%m-%d")
         }).execute()
@@ -120,7 +121,7 @@ class SupabaseLibraryManager:
             "cover_url": updated_book.cover_url,
             "source": updated_book.source,
             "rating": updated_book.rating,
-            "shelf": updated_book.shelf,
+            "room": updated_book.room,
             "reading_status": updated_book.reading_status
         }).eq("isbn", original_isbn).execute()
 
@@ -140,7 +141,7 @@ class SupabaseLibraryManager:
             "Publisher",
             "Published Date",
             "Summary",
-            "Shelf",
+            "Room",
             "Reading Status"
         ]
 

@@ -27,7 +27,23 @@ def book_editor(book=None, form_key="book_editor"):
         with col2:
             publisher = st.text_input("Publisher", value=book.publisher)
             published_date = st.text_input("Published Date", value=book.published_date)
-            shelf = st.text_input("Shelf", value=book.shelf)
+            room_options = [
+                "Unknown",
+                "Office",
+                "Bedroom",
+                "Classroom"
+            ]
+
+            current_room = book.room or "Unknown"
+
+            if current_room not in room_options:
+                room_options.append(current_room)
+
+            room = st.selectbox(
+                "Room",
+                room_options,
+                index=room_options.index(current_room)
+            )
 
             rating_options = [None, 1, 2, 3, 4, 5]
 
@@ -92,7 +108,7 @@ def book_editor(book=None, form_key="book_editor"):
             cover_url=cover_url.strip(),
             source=source.strip(),
             rating=rating,
-            shelf=shelf.strip(),
+            room=room,
             reading_status=reading_status
         )
 
