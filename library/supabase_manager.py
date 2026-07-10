@@ -156,3 +156,16 @@ class SupabaseLibraryManager:
         )
 
         return self.books[mask]
+    
+    def delete_book(self, isbn):
+      response = (
+          self.client
+          .table("books")
+          .delete()
+          .eq("isbn", isbn)
+          .execute()
+      )
+
+      self.refresh()
+
+      return bool(response.data)

@@ -82,3 +82,30 @@ else:
 
             st.success("Book updated!")
             st.rerun()
+
+    st.divider()
+
+    st.subheader("🗑️ Delete Book")
+
+    st.warning(
+        "Deleting a book permanently removes it from The Lembo Library."
+    )
+
+    confirm_delete = st.checkbox(
+        f"I understand that I am permanently deleting "
+        f"“{selected.get('Title', 'this book')}.”",
+        key=f"confirm_delete_{original_isbn}"
+    )
+
+    if st.button(
+        "Delete This Book",
+        type="primary",
+        disabled=not confirm_delete
+    ):
+        deleted = library.delete_book(original_isbn)
+
+        if deleted:
+            st.success("Book deleted from The Lembo Library.")
+            st.rerun()
+        else:
+            st.error("The book could not be deleted.")

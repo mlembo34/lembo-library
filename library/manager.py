@@ -198,3 +198,21 @@ class LibraryManager:
       conn.close()
 
       self.refresh()
+
+    def delete_book(self, isbn):
+      conn = self.get_connection()
+      cursor = conn.cursor()
+
+      cursor.execute(
+          "DELETE FROM books WHERE isbn = ?",
+          (isbn,)
+      )
+
+      deleted = cursor.rowcount > 0
+
+      conn.commit()
+      conn.close()
+
+      self.refresh()
+
+      return deleted
