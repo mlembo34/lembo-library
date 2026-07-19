@@ -4,5 +4,6 @@ gspread
 google-auth
 requests
 pandas
+reportlab
 streamlit-qrcode-scanner
 supabase

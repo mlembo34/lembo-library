@@ -1,13 +1,16 @@
 import streamlit as st
 
 from library.page import setup_page
+from library.preferences import load_preferences
 
 library = setup_page(
   title = "The Lembo Library",
   icon = "📚"
 )
 
-st.title("📚 The Lembo Library")
+preferences = load_preferences()
+
+st.title(f"📚 {preferences['library_name']}")
 
 col1, col2, col3 = st.columns(3)
 

@@ -1,6 +1,7 @@
 import streamlit as st
 
 from library.page import setup_page
+from library.preferences import load_preferences
 from library.utils import author_sort_key
 
 
@@ -9,7 +10,9 @@ library = setup_page(
     icon="📚"
 )
 
-st.title("📚 Browse The Lembo Library")
+preferences = load_preferences()
+
+st.title(f"📚 Browse {preferences['library_name']}")
 
 books = library.books
 

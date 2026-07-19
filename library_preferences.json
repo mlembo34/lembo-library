@@ -1,0 +1,6 @@
+{
+  "library_name": "The Lembo Library",
+  "default_room": "Office",
+  "shelf_sort": "Author",
+  "read_not_owned_position": "Last"
+}

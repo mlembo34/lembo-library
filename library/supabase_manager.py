@@ -169,3 +169,52 @@ class SupabaseLibraryManager:
       self.refresh()
 
       return bool(response.data)
+
+    def update_reading_status(self, old_status, new_status):
+      """Bulk-update a reading status and return the number of changed books."""
+      matches = (
+          self.client
+          .table("books")
+          .select("isbn")
+          .eq("reading_status", old_status)
+          .execute()
+      )
+      changed = len(matches.data)
+
+      if changed:
+          (
+              self.client
+              .table("books")
+              .update({"reading_status": new_status})
+              .eq("reading_status", old_status)
+              .execute()
+          )
+          self.refresh()
+
+      return changed
+
+    def bulk_update_field(self, field, old_value, new_value):
+      columns = {
+          "Genre": "genre",
+          "Room": "room",
+          "Reading Status": "reading_status"
+      }
+      if field not in columns:
+          raise ValueError("Unsupported bulk-update field")
+
+      matches = (
+          self.client.table("books")
+          .select("isbn")
+          .eq(columns[field], old_value)
+          .execute()
+      )
+      changed = len(matches.data)
+      if changed:
+          (
+              self.client.table("books")
+              .update({columns[field]: new_value})
+              .eq(columns[field], old_value)
+              .execute()
+          )
+          self.refresh()
+      return changed

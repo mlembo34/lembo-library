@@ -1,6 +1,7 @@
 import streamlit as st
 
 from library.book import Book
+from library.preferences import load_preferences
 
 
 def book_editor(book=None, form_key="book_editor"):
@@ -10,7 +11,7 @@ def book_editor(book=None, form_key="book_editor"):
     """
 
     if book is None:
-        book = Book(isbn="")
+        book = Book(isbn="", room=load_preferences()["default_room"])
 
     with st.form(form_key):
 
@@ -69,7 +70,8 @@ def book_editor(book=None, form_key="book_editor"):
             "",
             "Want to Read",
             "Reading",
-            "Finished",
+            "Read",
+            "Read - Not Owned",
             "Paused",
             "Did Not Finish"
         ]

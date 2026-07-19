@@ -27,10 +27,16 @@ def initialize_database():
             source TEXT,
             rating INTEGER,
             shelf TEXT,
+            room TEXT,
             reading_status TEXT,
             date_added TEXT
         )
     """)
+
+    cursor.execute("PRAGMA table_info(books)")
+    existing_columns = {row[1] for row in cursor.fetchall()}
+    if "room" not in existing_columns:
+        cursor.execute("ALTER TABLE books ADD COLUMN room TEXT")
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS collections (

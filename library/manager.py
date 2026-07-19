@@ -29,7 +29,7 @@ class LibraryManager:
                 cover_url AS "Cover URL",
                 source AS Source,
                 rating AS Rating,
-                shelf AS Shelf,
+                room AS Room,
                 reading_status AS "Reading Status",
                 date_added AS "Date Added"
             FROM books
@@ -101,7 +101,7 @@ class LibraryManager:
               cover_url,
               source,
               rating,
-              shelf,
+              room,
               reading_status,
               date_added
           )
@@ -118,7 +118,7 @@ class LibraryManager:
               book.cover_url,
               book.source,
               book.rating,
-              book.shelf,
+              book.room,
               book.reading_status,
               datetime.now().strftime("%Y-%m-%d")
           )
@@ -173,7 +173,7 @@ class LibraryManager:
               cover_url = ?,
               source = ?,
               rating = ?,
-              shelf = ?,
+              room = ?,
               reading_status = ?
           WHERE isbn = ?
           """,
@@ -188,7 +188,7 @@ class LibraryManager:
               updated_book.cover_url,
               updated_book.source,
               updated_book.rating,
-              updated_book.shelf,
+              updated_book.room,
               updated_book.reading_status,
               original_isbn
           )
@@ -216,3 +216,41 @@ class LibraryManager:
       self.refresh()
 
       return deleted
+
+    def update_reading_status(self, old_status, new_status):
+      """Bulk-update a reading status and return the number of changed books."""
+      conn = self.get_connection()
+      cursor = conn.cursor()
+
+      cursor.execute(
+          "UPDATE books SET reading_status = ? WHERE reading_status = ?",
+          (new_status, old_status)
+      )
+      changed = cursor.rowcount
+
+      conn.commit()
+      conn.close()
+      self.refresh()
+
+      return changed
+
+    def bulk_update_field(self, field, old_value, new_value):
+      columns = {
+          "Genre": "genre",
+          "Room": "room",
+          "Reading Status": "reading_status"
+      }
+      if field not in columns:
+          raise ValueError("Unsupported bulk-update field")
+
+      conn = self.get_connection()
+      cursor = conn.cursor()
+      cursor.execute(
+          f"UPDATE books SET {columns[field]} = ? WHERE {columns[field]} = ?",
+          (new_value, old_value)
+      )
+      changed = cursor.rowcount
+      conn.commit()
+      conn.close()
+      self.refresh()
+      return changed
